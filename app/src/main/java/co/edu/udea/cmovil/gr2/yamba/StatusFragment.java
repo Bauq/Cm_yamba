@@ -128,11 +128,9 @@ public class StatusFragment extends Fragment {
                 YambaClient cloud = new YambaClient(username, password);
                 cloud.postStatus(params[0]);
 
-                progress.dismiss();
                 Log.d(TAG, "Successfully posted to the cloud: " + params[0]);
                 return "Successfully posted";
             } catch (Exception e) {
-                progress.dismiss();
                 Log.e(TAG, "Failed to post to the cloud", e);
                 e.printStackTrace();
                 return "Failed to post";
@@ -140,35 +138,16 @@ public class StatusFragment extends Fragment {
         }
 
 
-            /*try {
-                SharedPreferences prefs = PreferenceManager
-                        .getDefaultSharedPreferences(getActivity());
-                String username = prefs.getString("username", "student");
-                String password = prefs.getString("password", "password");
-
-                YambaClient cloud = new YambaClient("student", "password");
-                cloud.postStatus(params[0]);
-
-                Log.d(TAG, "Successfully posted to the cloud: " + params[0]);
-                return true;
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to post to the cloud", e);
-                e.printStackTrace();
-                return false;
-            }*/
-
-
-        // Called after doInBackground() on UI thread
-        /*@Override
-        protected void onPostExecute(Boolean result) {
+        @Override
+        protected void onPostExecute(String result) {
             progress.dismiss();
-            if (getActivity() != null && result) {
+            if (getActivity() != null && result!= null) {
                 Toast.makeText(getActivity(), "Publicacion exitosa", Toast.LENGTH_LONG).show();
                 mTextStatus.setText(null);
             } else {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
-        }*/
+        }
 
     }
 
