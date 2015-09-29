@@ -2,6 +2,7 @@ package co.edu.udea.cmovil.gr2.yamba;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -95,7 +96,7 @@ public class StatusFragment extends Fragment {
         return v;
     }
 
-    class PostTask extends AsyncTask<String, Void, Boolean> {
+    class PostTask extends AsyncTask<String, Void, String> {
         private ProgressDialog progress;
 
         @Override
@@ -107,8 +108,39 @@ public class StatusFragment extends Fragment {
 
         // Executes on a non-UI thread
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected String doInBackground(String... params) {
             try {
+                SharedPreferences prefs = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                String username = prefs.getString("username", "");
+                String password = prefs.getString("password", "");
+
+                // Check that username and password are not empty
+                // If empty, Toast a message to set login info and bounce to
+                // SettingActivity
+                // Hint: TextUtils.
+                if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+                    getActivity().startActivity(
+                            new Intent(getActivity(), SettingsActivity.class));
+                    return "Please update your username and password";
+                }
+
+                YambaClient cloud = new YambaClient(username, password);
+                cloud.postStatus(params[0]);
+
+                progress.dismiss();
+                Log.d(TAG, "Successfully posted to the cloud: " + params[0]);
+                return "Successfully posted";
+            } catch (Exception e) {
+                progress.dismiss();
+                Log.e(TAG, "Failed to post to the cloud", e);
+                e.printStackTrace();
+                return "Failed to post";
+            }
+        }
+
+
+            /*try {
                 SharedPreferences prefs = PreferenceManager
                         .getDefaultSharedPreferences(getActivity());
                 String username = prefs.getString("username", "student");
@@ -123,11 +155,11 @@ public class StatusFragment extends Fragment {
                 Log.e(TAG, "Failed to post to the cloud", e);
                 e.printStackTrace();
                 return false;
-            }
-        }
+            }*/
+
 
         // Called after doInBackground() on UI thread
-        @Override
+        /*@Override
         protected void onPostExecute(Boolean result) {
             progress.dismiss();
             if (getActivity() != null && result) {
@@ -136,7 +168,7 @@ public class StatusFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
             }
-        }
+        }*/
 
     }
 
