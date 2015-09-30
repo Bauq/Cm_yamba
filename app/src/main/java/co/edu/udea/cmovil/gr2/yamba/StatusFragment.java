@@ -141,7 +141,7 @@ public class StatusFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             progress.dismiss();
-            if (getActivity() != null && result!= null) {
+            if (getActivity() != null && result!= "Successfully posted") {
                 Toast.makeText(getActivity(), "Publicacion exitosa", Toast.LENGTH_LONG).show();
                 mTextStatus.setText(null);
             } else {
