@@ -130,6 +130,7 @@ public class StatusFragment extends Fragment {
 
                 Log.d(TAG, "Successfully posted to the cloud: " + params[0]);
                 return "Successfully posted";
+
             } catch (Exception e) {
                 Log.e(TAG, "Failed to post to the cloud", e);
                 e.printStackTrace();
@@ -141,7 +142,7 @@ public class StatusFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             progress.dismiss();
-            if (getActivity() != null && result!= "Successfully posted") {
+            if (getActivity() != null && result == "Successfully posted") {
                 Toast.makeText(getActivity(), "Publicacion exitosa", Toast.LENGTH_LONG).show();
                 mTextStatus.setText(null);
             } else {
