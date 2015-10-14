@@ -115,10 +115,6 @@ public class StatusFragment extends Fragment {
                 String username = prefs.getString("username", "");
                 String password = prefs.getString("password", "");
 
-                // Check that username and password are not empty
-                // If empty, Toast a message to set login info and bounce to
-                // SettingActivity
-                // Hint: TextUtils.
                 if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
                     getActivity().startActivity(
                             new Intent(getActivity(), SettingsActivity.class));
